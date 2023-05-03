@@ -1,4 +1,4 @@
-name: iot-example-graphical-snap  # you probably want to 'snapcraft register <name>'
+name: electron-example  # you probably want to 'snapcraft register <name>'
 version: git # just for humans, typically '1.2+git' or '1.3.2'
 summary: IoT example using Electron # 79 char long summary
 description: IoT example using Electron
@@ -8,7 +8,7 @@ grade: stable
 base: core20
 
 apps:
-  iot-example-graphical-snap:
+  electron-example:
     command-chain: &_command-chain
       - bin/wayland-launch
       - bin/dbus-launch
@@ -33,7 +33,13 @@ apps:
     restart-condition: always
     command-chain: *_command-chain
     command: *_command
-    plugs: *_plugs
+    plugs:
+      - opengl
+      - wayland
+      - hardware-observe
+      - network
+      - network-bind
+      - process-control
     environment: *_environment
 
 # This is one of four snippets that relate to providing the userspace graphics needed by your application.
@@ -117,6 +123,7 @@ parts:
       - libcups2
       - libgtk-3-0
       - libasound2
+      - fonts-droid-fallback
     build-snaps:
       - node/16/stable
 
